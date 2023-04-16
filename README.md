@@ -30,12 +30,16 @@ the `Client_VM`.
     ```bash
     $ sudo apt -y install python-pip
     $ pip install requests
+    $ pip install locust
     ```
 
-3. Then, you need to install *Docker* on VMs that constitute your Swarm Cluster. Run the following on each node.
+3. Then, you need to install *Docker*, pip and the reqired modules on VMs that constitute your Swarm Cluster. Run the following on each node.
     ```bash
     $ sudo apt update
     $ sudo apt -y install docker.io
+    $ sudo apt -y install python-pip
+    $ pip install matplotlib
+    $ pip install docker
     ```
     
 4. Now that Docker is installed on the two VMs, you will create the Swarm cluster.
@@ -59,6 +63,12 @@ the `Client_VM`.
     ```bash
     $ sudo docker stack deploy --compose-file docker-compose.yml app_name
     ```
+    1. after deployment you can run the auto_scaler.py to automatically scale the application, this is available at https://github.com/ECE422-kyle-ash/project2/blob/master/auto_scaler.py, again you must have access
+    2. run the auto_scaler using the command:
+    ```bash
+    $ python3 auto_scaler.py
+    ```
+
 7. Your deployed application should include three microservices:
     1. A visualization microservice that is used to visualize the Swarm cluster nodes and the running microservices. 
         - Open `http://swarm_manager_ip:5000` in your browser. Note that you should have the Cybera VPN client 
@@ -68,19 +78,15 @@ the `Client_VM`.
         - Open `http://swarm_manager_ip:8000` to see the web application. Try to refresh the page. You should see the hitting number increase one by one and also the computation time change each time. ([Sample](./figures/app.png))
     3. A Redis microservice which in fact doesn't do anything fancy but return the number of hitting.
 
-8. Now, login into your `Client_VM` and download the http client program:
+8. Now, login into your `Client_VM` and download the locust client program:
+    The file is available at https://github.com/ECE422-kyle-ash/project2/blob/master/locustfile.py, you would need access to the private repository to download it.
+
+9. Then run the client program using the command
     ```bash
-    $ wget https://raw.githubusercontent.com/zhijiewang22/ECE422-Proj2-StartKit/master/http_client.py
+    $ locust run
     ```
-9. Then run the `http_client.py` program with one user who sends a request, waits for response, when received the 
-    response would think for one second, and then send another request. This cycle goes on as long as the client 
-    program is running.
-    ```bash
-    $ python3.5 http_client.py swarm_manager_ip 1 1
-    ```
-    1. The program should print the response time for each request.
-    2. Generally, this client program creates a number of users that send requests to the server and after receiving 
-    the response thinks for the amount of `think_time` and then sends a new request.
+    1. you can go to http://10.2.5.226:8089/ to view the dashboard, do note that for a different machine you would have to replace the ip with your VM's ip in the code and the link (also make sure the port is open).
+    2. you can use the GUI to edit the number of users making requests and view the requests, users and response time graphs.
     3. If you increase the number of users or decrease the think time, ie increasing the workload, the response 
     time should increase.
     4. **Important Note**: for development and testing purposes you may run the client program on your laptop 
