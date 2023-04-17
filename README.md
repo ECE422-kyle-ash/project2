@@ -1,10 +1,9 @@
 ECE 422: Reliable and Secure Systems Design 
 =============
----------------
 ### Authors:
-Kyle Bricker - kbricker <br>
-Ashutosh Lamba - alamba
----------------
+Kyle Bricker - kbricker  
+Ashutosh Lamba - alamba  
+=============
 This repository provides the starter kit for the Reliability project. The `docker-images` folder
 contains the Dockerfile, a simple application in `Python` and a requirement file including dependencies for
 the application. This directory is for your information and reference as the image (simpleweb) has already been built and pushed to [Docker Hub](https://hub.docker.com/r/zhijiewang22/simpleweb) repository.
